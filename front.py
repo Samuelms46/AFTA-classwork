@@ -8,12 +8,10 @@ st.set_page_config(page_title="Fintech App - User Input", layout="centered")
 BACKEND_URL = "http://localhost:8000/calculate_advance"
 
 # Title and description
-st.title("💸 Advance and Loan Calculator")
+st.title("💸Advance and Loan Calculator")
 st.write("Enter your financial details below to request an advance or calculate a loan.")
 
-# Create a form
 with st.form(key="user_input_form"):
-    # Gross Salary and Pay Frequency
     st.header("Salary Details")
     gross_salary = st.number_input(
         "Gross Salary ($)",
@@ -39,7 +37,7 @@ with st.form(key="user_input_form"):
     )
 
     # Optional Loan Details
-    st.header("Loan Details (Optional)")
+    st.header("Loan Details")
     include_loan = st.checkbox("Include Loan Calculation", help="Check to enter loan details.")
 
     loan_amount = None
