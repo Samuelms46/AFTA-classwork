@@ -1,11 +1,12 @@
 import streamlit as st
 import requests
+import os
 
 # Set page configuration
 st.set_page_config(page_title="Fintech App - User Input", layout="centered")
 
 # FastAPI backend URL
-BACKEND_URL = "http://localhost:8000/calculate_advance"
+BACKEND_URL = os.getenv("BACKEND_URL","http://localhost:8000/calculate_advance")
 
 # Title and description
 st.title("💸Advance and Loan Calculator")

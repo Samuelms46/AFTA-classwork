@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./Backend
+    ports:
+      - "8000:8000"
+    networks:
+      - fintech
+    restart: unless-stopped
+
+  frontend:
+    build: ./Frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+    networks:
+      - fintech
+
+networks:
+  fintech:
+    driver: bridge
