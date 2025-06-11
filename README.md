@@ -8,7 +8,7 @@ This app is designed to assist users in requesting salary advances and calculati
 
 - **Frontend**: A Streamlit-based web interface that provides an interactive UI for users to input financial details and view results. It runs on port `8501` and communicates with the backend via HTTP requests.
 
-The architecture is containerized using Docker Compose, with both services running in separate containers and communicating over a custom bridge network (`fintech-network`). The backend processes data and stores loan details in an in-memory store (replaceable with a database for production), while the frontend displays real-time results, including amortization schedules when requested.
+The architecture is containerized using Docker Compose, with both services running in separate containers and communicating over a custom bridge network (`fintech`). The backend processes data and stores loan details in an in-memory store (replaceable with a database for production), while the frontend displays real-time results, including amortization schedules when requested.
 
 ## 🔗 API Endpoint Descriptions
 
@@ -66,8 +66,8 @@ docker compose up
 
 ## Assumptions Made
 
-- **Loan Logic**: Eligibility requires a minimum monthly salary of $1000. The maximum advance is 50% of the monthly salary. A simple fee model applies (5% of the advance amount, with a minimum of $10 and a maximum of $50). Compound interest assumes monthly compounding (\( n = 12 \)), and the amortization schedule uses a fixed-rate loan formula.
-- **Storage**: Loan details are stored in an in-memory dictionary for simplicity (intended for development; replace with a database like PostgreSQL in production).
+- **Loan Logic**: Eligibility requires a minimum monthly salary of $1000. The maximum advance is 50% of the monthly salary. A simple fee model applies (5% of the advance amount, with a minimum of $10 and a maximum of $50). Compound interest assumes monthly compounding \( n = 12 \), and the amortization schedule uses a fixed-rate loan formula.
+- **Storage**: Loan details are stored in an in-memory dictionary for simplicity (intended for development; it can be replaced with a database like PostgreSQL in production).
 - **Networking**: The frontend communicates with the backend using the service name `backend` within the Docker network, with `BACKEND_URL` set to `http://backend:8000/calculate_advance`.
 - **Dependencies**: All required Python packages are listed in `requirements.txt` files, compatible with Python 3.12.
 
