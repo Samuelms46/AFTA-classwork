@@ -122,7 +122,6 @@ if submit_button:
                 }))
 
             # Add download button for CSV
-            if include_amortization and loan_amount and interest_rate and loan_term and result.get('advance_approved'):
                 export_payload = payload.copy()
                 export_payload["export_csv"] = True
                 export_response = requests.post(BACKEND_URL, json=export_payload)
