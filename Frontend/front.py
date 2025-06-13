@@ -4,13 +4,12 @@ import pandas as pd
 import os
 from io import StringIO
 
-# Set page configuration
+
 st.set_page_config(page_title="Fintech App - User Input", layout="centered")
 
 # Get backend URL from environment variable
 BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000/calculate_advance")
 
-# Title and description
 st.title("💸 Fintech App: Advance and Loan Calculator")
 st.write("Enter your financial details below to request an advance or calculate a loan.")
 

@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import io
 
-# Initialize FastAPI app
+# Initialize FastAPI
 app = FastAPI(title="Fintech App - Salary Advance and Loan API")
 
 # Define input model for salary advance and loan request
