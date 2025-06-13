@@ -1,22 +1,21 @@
+# render.yaml
 services:
   - type: web
     name: backend
-    env: python
-    buildCommand: "cd backend && pip install -r requirements.txt"
+    env: docker
+    dockerfilePath: ./Backend/Dockerfile
     startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: BACKEND_URL
         value: http://backend:$PORT
     plan: free
-    dockerfilePath: ./Backend/Dockerfile
 
   - type: web
     name: frontend
-    env: python
-    buildCommand: "cd frontend && pip install -r requirements.txt"
-    startCommand: "streamlit run frontend.py --server.port $PORT --server.address 0.0.0.0"
+    env: docker
+    dockerfilePath: ./Frontend/Dockerfile
+    startCommand: "streamlit run front.py --server.port $PORT --server.address 0.0.0.0"
     envVars:
       - key: BACKEND_URL
         value: http://backend:$PORT
     plan: free
-    dockerfilePath: ./Frontend/Dockerfile
