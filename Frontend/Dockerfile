@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose port
-EXPOSE 8501
+# EXPOSE 8501
 
 # Command to run the application
-CMD ["streamlit", "run", "front.py", "--server.port", "8501","--server.address", "0.0.0.0"]
+CMD ["streamlit", "run", "front.py", "--server.port", "$PORT","--server.address", "0.0.0.0"]
