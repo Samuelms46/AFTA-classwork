@@ -1,4 +1,3 @@
-# render.yaml
 services:
   - type: web
     name: backend
@@ -7,12 +6,9 @@ services:
     startCommand: "uvicorn main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: BACKEND_URL
-        value: http://backend:8000
+        value: http://backend:$PORT
     plan: free
     dockerfilePath: ./backend/Dockerfile
-    ports:
-      - port: 8000
-        host: 8000
 
   - type: web
     name: frontend
@@ -21,11 +17,8 @@ services:
     startCommand: "streamlit run frontend.py --server.port $PORT --server.address 0.0.0.0"
     envVars:
       - key: BACKEND_URL
-        value: http://backend:8000
+        value: http://backend:$PORT
     plan: free
     dockerfilePath: ./frontend/Dockerfile
-    ports:
-      - port: 8501
-        host: 8501
     dependsOn:
       - backend
