@@ -122,18 +122,20 @@ if submit_button:
                 }))
 
             # Add download button for CSV
-            if include_amortization and loan_amount and interest_rate and loan_term:
+            if include_amortization and loan_amount and interest_rate and loan_term and result.get('advance_approved'):
                 export_payload = payload.copy()
                 export_payload["export_csv"] = True
                 export_response = requests.post(BACKEND_URL, json=export_payload)
                 export_response.raise_for_status()
-                csv_data = export_response.json()["csv_data"]
-                csv_file = StringIO(csv_data)
-                st.download_button(
-                    label="Download Amortization Schedule as CSV",
-                    data=csv_file,
-                    file_name=export_response.json()["filename"],
-                    mime_type="text/csv"
+                export_result = export_response.json()
+                if "csv_data" in export_result:
+                    csv_data = export_result["csv_data"]
+                    csv_file = StringIO(csv_data)
+                    st.download_button(
+                        label="Download Amortization Schedule as CSV",
+                        data=csv_file,
+                        file_name=export_result["filename"],
+                        mime_type="text/csv"
                 )
 
     except requests.exceptions.RequestException as e:
