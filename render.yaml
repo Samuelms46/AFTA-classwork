@@ -20,5 +20,3 @@ services:
         value: http://backend:$PORT
     plan: free
     dockerfilePath: ./frontend/Dockerfile
-    dependsOn:
-      - backend

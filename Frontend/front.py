@@ -3,6 +3,19 @@ import requests
 import pandas as pd
 import os
 from io import StringIO
+import time
+
+def get_backend_response(url, payload, max_retries=10, timeout=5):
+      for i in range(max_retries):
+          try:
+              response = requests.post(url, json=payload, timeout=timeout)
+              response.raise_for_status()
+              return response.json()
+          except requests.RequestException:
+              if i < max_retries - 1:
+                  time.sleep(5)
+              else:
+                  raise
 
 
 st.set_page_config(page_title="Fintech App - User Input", layout="centered")

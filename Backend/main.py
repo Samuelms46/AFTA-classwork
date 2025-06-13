@@ -178,6 +178,11 @@ async def calculate_advance(request: AdvanceRequest, export_csv: Optional[bool] 
     except Exception as e:
         raise HTTPException(status_code=500, detail="Internal server error")
 
+  # Add health check endpoint
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
 # Endpoint to retrieve loan details
 @app.get("/loan/{loan_id}")
 async def get_loan(loan_id: str):
