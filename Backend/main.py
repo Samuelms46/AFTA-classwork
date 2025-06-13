@@ -64,18 +64,38 @@ def calculate_compound_interest(principal: float, rate: float, term_months: int)
 # Helper function to generate amortization schedule using Pandas
 def generate_amortization_schedule(principal: float, rate: float, term_months: int) -> pd.DataFrame:
     monthly_rate = rate / 100 / 12
-    monthly_payment = principal * (monthly_rate * (1 + monthly_rate) ** term_months) / ((1 + monthly_rate) ** term_months - 1)
+    if monthly_rate == 0:
+        monthly_payment = principal / term_months
+    else:
+        monthly_payment = principal * (monthly_rate * (1 + monthly_rate) ** term_months) / ((1 + monthly_rate) ** term_months - 1)
     monthly_payment = round(monthly_payment, 2)
 
+    # Initialize DataFrame with initial balance
     df = pd.DataFrame({
         "Month": range(1, term_months + 1),
-        "Balance": principal,
-        "Payment": monthly_payment
+        "Balance": [principal] + [0] * (term_months - 1),
+        "Payment": [0] * term_months
     })
-    df["Interest"] = df["Balance"] * monthly_rate
-    df["Principal"] = df["Payment"] - df["Interest"]
-    df["Balance"] = df["Balance"].shift(1, fill_value=principal) - df["Principal"].cumsum()
-    df["Balance"] = df["Balance"].clip(lower=0)
+
+    balance = principal
+    for i in range(term_months):
+        if i > 0:
+            df.at[i, "Balance"] = balance
+        interest = balance * monthly_rate
+        principal_payment = min(monthly_payment - interest, balance)
+        balance -= principal_payment
+        if i == term_months - 1 and balance > 0:  # Adjust final payment to clear balance
+            df.at[i, "Payment"] = principal_payment + balance
+            df.at[i, "Interest"] = interest
+            df.at[i, "Principal"] = principal_payment + balance - interest
+            df.at[i, "Balance"] = 0
+        else:
+            df.at[i, "Payment"] = monthly_payment
+            df.at[i, "Interest"] = interest
+            df.at[i, "Principal"] = principal_payment
+            df.at[i, "Balance"] = max(0, balance)  # Ensure no negative balance
+        balance = df.at[i, "Balance"]
+
     return df[["Month", "Payment", "Principal", "Interest", "Balance"]].round(2)
 
 # Endpoint to calculate salary advance and loan
